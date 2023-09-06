@@ -31,7 +31,6 @@ const storage = getStorage(app);
 const db = getFirestore(app);
 
 // Funktion för att hämta och visa bilder och text från Firestore och Firebase Storage
-// Funktion för att hämta och visa bilder och text från Firestore och Firebase Storage
 async function getAndDisplayImages() {
   try {
     // Hämta bilder från Firestore

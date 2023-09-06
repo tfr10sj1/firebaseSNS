@@ -62,4 +62,73 @@ async function removeProduct(productId, imageName) {
   }
 }
 
+function editProduct(productId) {
+  // Implementera din logik för att redigera produkten här
+  // Till exempel, du kan öppna en redigeringspopup eller navigera till en redigeringsvy med produktinformationen.
+  console.log("Redigerar produkt med ID: " + productId);
+}
 
+
+// Funktion för att räkna totalpriset för alla produkter i kundvagnen
+function calculateTotalPrice() {
+  var totalPrice = 0;
+
+  // Loopa igenom alla produkter i kundvagnen
+  for (var i = 0; i < ordered_items.length; i++) {
+      var item = ordered_items[i];
+      totalPrice += parseFloat(item.price); // Lägg till produkts prissumma till totalpriset
+  }
+
+  return totalPrice;
+}
+
+// Funktion för att uppdatera det visade totalpriset
+function updateTotalPrice() {
+  var totalTextElement = document.querySelector(".total-price");
+  var totalPrice = calculateTotalPrice();
+
+  // Uppdatera totalpriset på sidan
+  totalTextElement.textContent = totalPrice.toFixed(2) + " sek"; // Visar totalpriset med två decimaler
+}
+
+// Anropa funktionen för att initialt visa totalpriset när sidan laddas
+updateTotalPrice();
+
+// Funktion för att hämta och visa produkterna i kundvagnen
+function displayCartProducts() {
+  // Hämta referens till den container där produkterna ska visas
+  var cartContainer = document.querySelector(".product-list");
+
+  // Loopa igenom ordered_items och skapa en HTML-sträng för varje produkt
+  var productsHTML = "";
+  for (var i = 0; i < ordered_items.length; i++) {
+    var item = ordered_items[i];
+    var productHTML = `
+      <div class="product-row">
+        <div class="product-container">
+          <img src="${item.image_url}" alt="${item.name}" class="product-image">
+          <div class="product-info">
+            <p><strong>Id:</strong> ${item.id}</p>
+            <p><strong>Namn:</strong> ${item.name}</p>
+            <p><strong>Pris:</strong> ${item.price}</p>
+            <p><strong>Vikt:</strong> ${item.weight}</p>
+            <p><strong>Metalltyp:</strong> ${item.metal_type}</p>
+          </div>
+        </div>
+        <div class="product-actions">
+          <button onclick="removeFromCart('${item.id}', '${item.image_url}')">Ta bort</button>
+          <button onclick="editProduct('${item.id}')">Redigera</button>
+        </div>
+      </div>
+    `;
+    productsHTML += productHTML;
+  }
+
+  // Uppdatera innehållet i cartContainer med produkterna
+  cartContainer.innerHTML = productsHTML;
+}
+
+// Ladda produkterna när sidan laddas
+window.addEventListener("DOMContentLoaded", function () {
+  displayCartProducts();
+});

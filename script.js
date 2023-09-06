@@ -351,7 +351,7 @@ function polynom(sides, ctx) {
   ctx.clip();
 }
 
-function saveProcessedImage() {
+/*function saveProcessedImage() {
   // Hämta den valda formen från rullgardinsmenyn
   var selectedShape = document.getElementById("shape-select").value;
 
@@ -373,8 +373,56 @@ function saveProcessedImage() {
   shapeCanvas.toBlob(function (blob) {
     // Hämta produktinformationen från data-attributet
     var productInfoElement = document.getElementById("product-info");
-    var productInfo = JSON.parse(productInfoElement.getAttribute("data-product"));
 
+    var productInfo = JSON.parse(productInfoElement.getAttribute("data-product"));
+    console.log(productInfoElement)
+    // Kontrollera om productInfo är definierad och har egenskapen 'name'
+    if (productInfo && productInfo.name) {
+      // Skapa ett unikt ID för den sparade produkten (i detta exempel är det en tidsstämpel)
+      var productId = Date.now().toString();
+
+      // Skapa ett objekt som innehåller produktinformation och bild-Blob
+      var productData = {
+        id: productId,
+        name: productInfo.name, // Anpassa detta baserat på hur du får produktnamnet
+        metal_type: productInfo.metal_type,
+        price: productInfo.price,
+        weight: productInfo.weight,
+        imageBlob: blob
+      };
+     
+      // Spara produktdata i localStorage med det unika ID:et som nyckel
+      localStorage.setItem(productId, JSON.stringify(productData));
+
+      alert("Produkten har sparats i din kundvagn.");
+      window.location.reload(); // Uppdatera sidan efter att produkten har sparats
+    } else {
+      alert("Produktinformationen är inte korrekt definierad.");
+    }
+  }, "image/jpeg");
+}
+*/
+
+function saveProcessedImage(productInfo) {
+  // Hämta den valda formen från rullgardinsmenyn
+  var selectedShape = document.getElementById("shape-select").value;
+
+  // Hämta canvas-elementet där bilden bearbetas
+  var canvas = document.getElementById("output-image-canvas");
+  var ctx = canvas.getContext("2d");
+
+  // Skapa en kopia av canvas för att tillämpa klippning i vald form
+  var shapeCanvas = document.createElement("canvas");
+  shapeCanvas.width = canvas.width;
+  shapeCanvas.height = canvas.height;
+  var shapeCtx = shapeCanvas.getContext("2d");
+
+  // Utför klippningsoperationen för den valda formen
+  clipToShape(shapeCtx, selectedShape);
+  shapeCtx.drawImage(canvas, 0, 0);
+
+  // Konvertera den klippta canvasen till en Blob
+  shapeCanvas.toBlob(function (blob) {
     // Kontrollera om productInfo är definierad och har egenskapen 'name'
     if (productInfo && productInfo.name) {
       // Skapa ett unikt ID för den sparade produkten (i detta exempel är det en tidsstämpel)
