@@ -76,7 +76,7 @@ async function getAndDisplayImages() {
         const { imageUrl, data } = item;
 
         const imageLink = document.createElement("a");
-        imageLink.href = `processImage.html?image=${encodeURIComponent(imageUrl)}&id=${data.id}&metal_type=${data.metal_type}&name=${encodeURIComponent(data.name)}&price=${data.price}&weight=${data.weight}`;
+        imageLink.href = `/processImage.html?image=${encodeURIComponent(imageUrl)}&id=${data.id}&metal_type=${data.metal_type}&name=${encodeURIComponent(data.name)}&price=${data.price}&weight=${data.weight}`;
 
         const image = document.createElement("img");
         image.src = imageUrl;
