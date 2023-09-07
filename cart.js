@@ -22,7 +22,7 @@ function calculateTotalPrice() {
 // Funktion för att visa produkterna i kundvagnen
 // cart.js
 // cart.js
-
+/*
 /// Funktion för att visa produkterna i kundvagnen
 function displayCartItems(productInfo) {
   try {
@@ -91,7 +91,71 @@ function displayCartItems(productInfo) {
     console.error(error);
   }
 }
+*/
+// Funktion för att visa produkterna i kundvagnen
+function displayCartItems(productInfo) {
+  try {
+    const cartItemsContainer = document.getElementById('cart-items'); // Hämta referensen till DOM-elementet
+    if (!cartItemsContainer) {
+      // Elementet 'cart-items' finns inte i DOM, avbryt funktionen
+      return;
+    }
 
+    // Skapa productsContainer om den inte finns
+    let productsContainer = cartItemsContainer.querySelector('.products-container');
+
+    if (!productsContainer) {
+      productsContainer = document.createElement('div');
+      productsContainer.className = 'products-container';
+      cartItemsContainer.appendChild(productsContainer);
+    }
+
+    // Skapa en produktdiv för den enda produkten i kundvagnen
+    const productDiv = document.createElement('div');
+    productDiv.className = 'product-row';
+
+    // Skapa en bildtagg för produkten
+    const productImage = document.createElement('img');
+    productImage.src = productInfo.imageBlob; // Lägg till bildkällan här
+    productImage.alt = productInfo.name; // Använd namnet från productInfo
+
+    // Skapa en element för produktnamnet
+    const productName = document.createElement('p');
+    productName.innerHTML = `<strong>Namn:</strong> ${productInfo.name}`;
+
+    // Skapa en element för metalltypen (om den finns)
+    if (productInfo.metal_type) {
+      const productMetalType = document.createElement('p');
+      productMetalType.innerHTML = `<strong>Metal Type:</strong> ${productInfo.metal_type}`;
+      productDiv.appendChild(productMetalType);
+    }
+
+    // Skapa en element för priset
+    const productPrice = document.createElement('p');
+    productPrice.innerHTML = `<strong>Pris:</strong> ${productInfo.price} sek`;
+
+    // Skapa en element för vikten (om den finns)
+    if (productInfo.weight) {
+      const productWeight = document.createElement('p');
+      productWeight.innerHTML = `<strong>Vikt:</strong> ${productInfo.weight} gram`;
+      productDiv.appendChild(productWeight);
+    }
+
+    // Lägg till elementen i produktens container (productDiv)
+    productDiv.appendChild(productImage);
+    productDiv.appendChild(productName);
+    productDiv.appendChild(productPrice);
+
+    // Lägg till produkten i kundvagnens container (productsContainer)
+    productsContainer.appendChild(productDiv);
+
+    // Uppdatera det totala priset
+    const totalPriceElement = document.getElementById('total-price');
+    totalPriceElement.textContent = `${calculateTotalPrice(productInfo)} sek`;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 // cart.js
 document.addEventListener("DOMContentLoaded", function() {
