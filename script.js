@@ -351,7 +351,7 @@ function polynom(sides, ctx) {
   ctx.clip();
 }
 
-/*function saveProcessedImage() {
+/*function saveProcessedImage(productInfo) {
   // Hämta den valda formen från rullgardinsmenyn
   var selectedShape = document.getElementById("shape-select").value;
 
@@ -371,11 +371,6 @@ function polynom(sides, ctx) {
 
   // Konvertera den klippta canvasen till en Blob
   shapeCanvas.toBlob(function (blob) {
-    // Hämta produktinformationen från data-attributet
-    var productInfoElement = document.getElementById("product-info");
-
-    var productInfo = JSON.parse(productInfoElement.getAttribute("data-product"));
-    console.log(productInfoElement)
     // Kontrollera om productInfo är definierad och har egenskapen 'name'
     if (productInfo && productInfo.name) {
       // Skapa ett unikt ID för den sparade produkten (i detta exempel är det en tidsstämpel)
@@ -390,18 +385,33 @@ function polynom(sides, ctx) {
         weight: productInfo.weight,
         imageBlob: blob
       };
-     
-      // Spara produktdata i localStorage med det unika ID:et som nyckel
-      localStorage.setItem(productId, JSON.stringify(productData));
+
+      // processImage.js
+      async function saveProcessedImage(productInfo) {
+        // Bearbeta bilden och annan information
+
+        // Spara produktinformationen i localStorage
+        localStorage.setItem('product_info', JSON.stringify(productInfo));
+        console.assert("localStorage", localStorage)
+        // Andra saker du behöver göra
+      }
 
       alert("Produkten har sparats i din kundvagn.");
-      window.location.reload(); // Uppdatera sidan efter att produkten har sparats
+      console.log(productId, JSON.stringify(productData))
+      
+
+      // Flytta anropet till displayCartItems inuti eventlyssnaren för DOMContentLoaded
+      document.addEventListener("DOMContentLoaded", function() {
+        
+        displayCartItems(productData); // Anropa displayCartItems när sidan har laddats
+      });
+
+      //window.location.reload(); // Uppdatera sidan efter att produkten har sparats
     } else {
       alert("Produktinformationen är inte korrekt definierad.");
     }
   }, "image/jpeg");
-}
-*/
+}*/
 
 function saveProcessedImage(productInfo) {
   // Hämta den valda formen från rullgardinsmenyn
@@ -438,14 +448,12 @@ function saveProcessedImage(productInfo) {
         imageBlob: blob
       };
 
-      // Spara produktdata i localStorage med det unika ID:et som nyckel
-      localStorage.setItem(productId, JSON.stringify(productData));
-
+      // Spara produktinformationen i localStorage
+      localStorage.setItem('product_info', JSON.stringify(productData));
+      // Anropa displayCartItems för att visa produkten i kundvagnen
       alert("Produkten har sparats i din kundvagn.");
-      window.location.reload(); // Uppdatera sidan efter att produkten har sparats
     } else {
       alert("Produktinformationen är inte korrekt definierad.");
     }
   }, "image/jpeg");
 }
-

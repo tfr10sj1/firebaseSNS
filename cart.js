@@ -2,133 +2,104 @@
 function goToHomePage() {
   window.location.href = "/";
 }
-//5a- Enklare version av addToCart utan kontroll för olika sessioner
-async function addToCart(productInfo) {
-  try {
-    const cartRef = firebase.firestore().collection('carts').doc(userUid);
-    const cartDoc = await cartRef.get();
-    const cartData = cartDoc.data();
 
-    const updatedCart = [...cartData.products, productInfo];
-    await cartRef.update({ products: updatedCart });
-
-    // Lista produkter med samma session_num som nuvarande produkt
-    const productsInSameSession = listProductsBySession(productInfo.session_num);
-    console.log('Produkter med samma session_num:', productsInSameSession);
-
-    alert('Produkten har lagts till i varukorgen.');
-  } catch (error) {
-    console.error(error);
-    alert('Det uppstod ett fel. Försök igen senare.');
-  }
+// Funktion för att hämta produkterna från localStorage
+function getOrderedItemsFromLocalStorage() {
+  return JSON.parse(localStorage.getItem('ordered_items')) || [];
 }
 
-//5b- Funktion för att lista produkter med samma session_num
-async function listProductsBySession(sessionNum) {
-  try {
-    const cartRef = firebase.firestore().collection('carts').doc(userUid);
-    const cartDoc = await cartRef.get();
-    const cartData = cartDoc.data();
-
-    const productsInSameSession = cartData.products.filter(item => item.session_num === sessionNum);
-    return productsInSameSession;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-}
-
-//6- Funktion för att ta bort produkt från varukorgen och Firebase
-async function removeProduct(productId, imageName) {
-  try {
-    // Ta bort produkten från varukorgen
-    const cartRef = firebase.firestore().collection('carts').doc(userUid);
-    const cartDoc = await cartRef.get();
-    const cartData = cartDoc.data();
-    
-    const updatedCart = cartData.products.filter(item => item.id !== productId);
-    await cartRef.update({ products: updatedCart });
-
-    // Ta bort bilden från Firebase Storage
-    const storageRef = firebase.storage().ref();
-    const imageRef = storageRef.child('orders/' + imageName); // Justera sökvägen om nödvändigt
-    await imageRef.delete();
-
-    alert('Produkten har tagits bort från varukorgen och bilden har tagits bort från Firebase Storage.');
-    location.reload(); // Uppdatera sidan efter borttagning
-  } catch (error) {
-    console.error(error);
-    alert('Det uppstod ett fel. Försök igen senare.');
-  }
-}
-
-function editProduct(productId) {
-  // Implementera din logik för att redigera produkten här
-  // Till exempel, du kan öppna en redigeringspopup eller navigera till en redigeringsvy med produktinformationen.
-  console.log("Redigerar produkt med ID: " + productId);
-}
-
-
-// Funktion för att räkna totalpriset för alla produkter i kundvagnen
+// Funktion för att beräkna det totala priset
 function calculateTotalPrice() {
-  var totalPrice = 0;
-
-  // Loopa igenom alla produkter i kundvagnen
-  for (var i = 0; i < ordered_items.length; i++) {
-      var item = ordered_items[i];
-      totalPrice += parseFloat(item.price); // Lägg till produkts prissumma till totalpriset
+  const ordered_items = getOrderedItemsFromLocalStorage();
+  let totalPrice = 0;
+  for (const item of ordered_items) {
+      totalPrice += item.price;
   }
-
   return totalPrice;
 }
 
-// Funktion för att uppdatera det visade totalpriset
-function updateTotalPrice() {
-  var totalTextElement = document.querySelector(".total-price");
-  var totalPrice = calculateTotalPrice();
 
-  // Uppdatera totalpriset på sidan
-  totalTextElement.textContent = totalPrice.toFixed(2) + " sek"; // Visar totalpriset med två decimaler
-}
+// Funktion för att visa produkterna i kundvagnen
+// cart.js
+// cart.js
 
-// Anropa funktionen för att initialt visa totalpriset när sidan laddas
-updateTotalPrice();
+/// Funktion för att visa produkterna i kundvagnen
+function displayCartItems(productInfo) {
+  try {
+   
+    const cartItemsContainer = document.getElementById('cart-items'); // Hämta referensen till DOM-elementet
+    if (!cartItemsContainer) {
+      // Elementet 'cart-items' finns inte i DOM, avbryt funktionen
+      return;
+    }
 
-// Funktion för att hämta och visa produkterna i kundvagnen
-function displayCartProducts() {
-  // Hämta referens till den container där produkterna ska visas
-  var cartContainer = document.querySelector(".product-list");
+    // Hämta beställda produkter från localStorage
+    const ordered_items = productInfo || [];
+    console.log("inside displayCartItems", ordered_items);
+    // Skapa productsContainer om den inte finns
+    let productsContainer = cartItemsContainer.querySelector('.products-container');
 
-  // Loopa igenom ordered_items och skapa en HTML-sträng för varje produkt
-  var productsHTML = "";
-  for (var i = 0; i < ordered_items.length; i++) {
-    var item = ordered_items[i];
-    var productHTML = `
-      <div class="product-row">
-        <div class="product-container">
-          <img src="${item.image_url}" alt="${item.name}" class="product-image">
-          <div class="product-info">
-            <p><strong>Id:</strong> ${item.id}</p>
-            <p><strong>Namn:</strong> ${item.name}</p>
-            <p><strong>Pris:</strong> ${item.price}</p>
-            <p><strong>Vikt:</strong> ${item.weight}</p>
-            <p><strong>Metalltyp:</strong> ${item.metal_type}</p>
-          </div>
-        </div>
-        <div class="product-actions">
-          <button onclick="removeFromCart('${item.id}', '${item.image_url}')">Ta bort</button>
-          <button onclick="editProduct('${item.id}')">Redigera</button>
-        </div>
-      </div>
-    `;
-    productsHTML += productHTML;
+    if (!productsContainer) {
+      productsContainer = document.createElement('div');
+      productsContainer.className = 'products-container';
+      cartItemsContainer.appendChild(productsContainer);
+    }
+    console.log("inside ordered_items", productInfo);
+    // Loopa igenom de beställda produkterna och skapa en produktdiv för varje produkt
+    for (const item of ordered_items) {
+      const productDiv = document.createElement('div');
+      productDiv.className = 'product-row';
+
+      // Skapa element för produkten (t.ex. bild, namn, pris, etc.)
+      // Du kan använda item-objektet här för att hämta produktinformation
+
+      // Bild
+      const productImage = document.createElement('img');
+      productImage.src = item.imageBlob; // Använd bildkällan från item
+
+      // Namn
+      const productName = document.createElement('p');
+      productName.innerHTML = `<strong>Namn:</strong> ${item.name}`;
+
+      // Metal Type
+      const productMetalType = document.createElement('p');
+      productMetalType.innerHTML = `<strong>Metal Type:</strong> ${item.metal_type}`;
+
+      // Pris
+      const productPrice = document.createElement('p');
+      productPrice.innerHTML = `<strong>Pris:</strong> ${item.price} sek`;
+
+      // Vikt
+      const productWeight = document.createElement('p');
+      productWeight.innerHTML = `<strong>Vikt:</strong> ${item.weight} gram`;
+
+      // Lägg till elementen i produktens container (productDiv)
+      productDiv.appendChild(productImage);
+      productDiv.appendChild(productName);
+      productDiv.appendChild(productMetalType);
+      productDiv.appendChild(productPrice);
+      productDiv.appendChild(productWeight);
+
+      // Lägg till produkten i kundvagnens container (productsContainer)
+      productsContainer.appendChild(productDiv);
+    }
+
+    // Uppdatera det totala priset
+    const totalPriceElement = document.getElementById('total-price');
+    totalPriceElement.textContent = `${calculateTotalPrice(productInfo)} sek`;
+  } catch (error) {
+    console.error(error);
   }
-
-  // Uppdatera innehållet i cartContainer med produkterna
-  cartContainer.innerHTML = productsHTML;
 }
 
-// Ladda produkterna när sidan laddas
-window.addEventListener("DOMContentLoaded", function () {
-  displayCartProducts();
+
+// cart.js
+document.addEventListener("DOMContentLoaded", function() {
+  // Hämta produktinformationen från localStorage
+  const productInfo = JSON.parse(localStorage.getItem('product_info'));
+  console.log(productInfo)
+  // Anropa displayCartItems när sidan har laddats
+  displayCartItems(productInfo);
 });
+
+// Här kan du lägga till andra funktioner som är relaterade till din kundvagnslogik
