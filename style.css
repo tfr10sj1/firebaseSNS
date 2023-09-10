@@ -97,6 +97,28 @@ body {
   width: 100px;
   height: 100px;
 }
+/* Uppdaterad CSS för mindre bild och bättre textplacering */
+.image-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.image-link img {
+  max-width: 100px; /* Justera bildens storlek efter behov */
+  height: auto;
+  border: 3px solid #4CAF50;
+  border-radius: 10%;
+  box-shadow: 0 7px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Anpassa stilen för texten under bilderna om det behövs */
+.image-description {
+  margin-top: 10px;
+}
 
 /* Styling for the reference border */
 .reference-border-container {
