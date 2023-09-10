@@ -89,7 +89,7 @@ body {
   align-items: center;
   height: 50vh;
   /* Anpassa höjden efter behov */
-  margin-top: 50px;
+  margin-top: 100px;
   /* Justera detta värde för att flytta output-rutan uppåt */
 }
 
@@ -202,7 +202,7 @@ input[type="range"] {
 
 /* Styling for the "Bearbeta" button */
 button {
-  margin-top: 0px;
+  margin-top: 50px;
   padding: 1px 20px;
   background-color: #4CAF50;
   color: white;
