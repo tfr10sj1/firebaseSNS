@@ -87,15 +87,15 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50vh;
+  height: auto;
   /* Anpassa höjden efter behov */
   margin-top: 100px;
   /* Justera detta värde för att flytta output-rutan uppåt */
 }
 
 #output-image {
-  width: 100px;
-  height: 100px;
+  width: auto;
+  height: auto;
 }
 /* Uppdaterad CSS för mindre bild och bättre textplacering */
 .image-link {
@@ -108,7 +108,7 @@ body {
 }
 
 .image-link img {
-  max-width: 100px; /* Justera bildens storlek efter behov */
+  max-width: 200px; /* Justera bildens storlek efter behov */
   height: auto;
   border: 3px solid #4CAF50;
   border-radius: 10%;
@@ -125,15 +125,15 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 500px;
-  height: 500px;
+  width: auto;
+  height: auto;
   margin: 10px;
   overflow: hidden;
 }
 
 .reference-border {
-  width: 100%;
-  height: 100%;
+  width: auto;
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -203,7 +203,7 @@ body {
   padding: 16px;
   border: 2px solid #ccc;
   border-radius: 1cm;
-  width: 200px;
+  width: auto;
   margin: 10px;
 }
 
@@ -260,7 +260,7 @@ button {
   font-size: 16px;
   padding: 5px;
   border: 1px solid #ccc;
-  width: 140px;
+  width: auto;
   border-radius: 10px;
   margin: 1px;
   background-color: #f1f1f1;
