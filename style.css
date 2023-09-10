@@ -1,80 +1,87 @@
 /* Styles for screens with a maximum width of 600px (e.g., smartphones) */
-@media (max-width: 40%) {
+@media (max-width: 600px) {
+  /* Använd en enklare gridlayout för mindre skärmar */
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 2fr); /* Två kolumner */
+    gap: 10px; /* Margin mellan bilderna */
+  }
 
-  /* Add your responsive styles here */
-  .w3-third img {
-    border: 2px solid #4CAF50;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  /* Justera stilen för bilderna */
+  .image-grid img {
+    margin-bottom: 0px; /* Vertikalt mellanrum mellan bilderna */
+    margin-top: 0px;
+    border: 3px solid #4CAF50;
+    border-radius: 10%;
+    box-shadow: 0 7px 8px rgba(0, 0, 0, 0.2);
+    max-width: 50%; /* Bredden ska anpassas till skärmbredden */
+    height: auto; /* Behåll bildens proportioner */
   }
 }
 
 /* Styles for screens with a width between 601px and 1200px (e.g., tablets) */
-@media (min-width: 50%) and (max-width:50%) {
+@media (min-width: 601px) and (max-width: 1200px) {
+  /* Behåll det tidigare gridlayouten för tablets */
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 2fr); /* Två kolumner */
+    gap: 10px; /* Margin mellan bilderna */
+  }
 
-  /* Add your responsive styles here */
-  .w3-third img {
-    border: 2px solid #4CAF50;
-    border-radius: 4px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* Justera stilen för bilderna om det behövs */
+  .image-grid img {
+    margin-bottom: 0px; /* Vertikalt mellanrum mellan bilderna */
+    margin-top: 0px;
+    border: 3px solid #4CAF50;
+    border-radius: 10%;
+    box-shadow: 0 7px 8px rgba(0, 0, 0, 0.2);
+    max-width: 50%; /* Bredden ska anpassas till skärmbredden */
+    height: auto; /* Behåll bildens proportioner */
   }
 }
 
 /* Styles for screens with a minimum width of 1201px (e.g., desktops) */
-@media (min-width:100%) {
+@media (min-width: 1201px) {
+  /* Behåll det tidigare gridlayouten för desktops */
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 2fr); /* Två kolumner */
+    gap: 10px; /* Margin mellan bilderna */
+  }
 
-  /* Add your responsive styles here */
-  .w3-third img {
+  /* Justera stilen för bilderna om det behövs */
+  .image-grid img {
+    margin-bottom: 0px; /* Vertikalt mellanrum mellan bilderna */
+    margin-top: 0px;
     border: 3px solid #4CAF50;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10%;
+    box-shadow: 0 7px 8px rgba(0, 0, 0, 0.2);
+    max-width: 50%; /* Bredden ska anpassas till skärmbredden */
+    height: auto; /* Behåll bildens proportioner */
   }
 }
 
-.image-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 2fr); /* Två kolumner */
-  gap: 10px; /* Margin mellan bilderna */
-  
-}
 
-.image-grid img {
-  margin-bottom: 0px; /* Vertikalt mellanrum mellan bilderna */
-  margin-top: 0px;
-  border: 3px solid #4CAF50;
-  border-radius: 10%;
-  box-shadow: 0 7px 8px rgba(0, 0, 0, 0.2);
-  max-width: 50%; /* Begränsa bildbredden till 100% av förälderelementet */
-  height: auto; /* Behåll bildens proportioner */
-}
-
-/* Lägg till en grön kant runt bilderna */
-.w3-third img {
-  border: 3px solid #4CAF50;
-  border-radius: 5px;
-  /* Lägg till en liten rundning på hörnen */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  /* Justera värdena för att ändra skuggans utseende */
-}
-
-body,
-h1 {
-  font-family: "Montserrat", sans-serif
+/* Övriga allmänna stilar för hela sidan */
+body, h1 {
+  font-family: "Montserrat", sans-serif;
 }
 
 img {
-  margin-bottom: -7px
+  margin-bottom: -7px;
 }
 
 .w3-row-padding img {
-  margin-bottom: 12px
+  margin-bottom: 12px;
 }
 
-/* Styling for the image container */
+/* Styling för bildcontainer */
 body {
   font-family: Arial, sans-serif;
   text-align: center;
 }
+
+/* Lägg till resten av ditt CSS här */
 
 #output-image-container {
   display: flex;
@@ -103,8 +110,8 @@ body {
 }
 
 .reference-border {
-  width: 80%;
-  height: 80%;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -165,9 +172,7 @@ body {
 .dodicagram-shape {
   clip-path: polygon(100.00% 50.00%, 78.98% 57.76%, 93.30% 75.00%, 71.21% 71.21%, 75.00% 93.30%, 57.76% 78.98%, 50.00% 100.00%, 42.24% 78.98%, 25.00% 93.30%, 28.79% 71.21%, 6.70% 75.00%, 21.02% 57.76%, 0.00% 50.00%, 21.02% 42.24%, 6.70% 25.00%, 28.79% 28.79%, 25.00% 6.70%, 42.24% 21.02%, 50.00% 0.00%, 57.76% 21.02%, 75.00% 6.70%, 71.21% 28.79%, 93.30% 25.00%, 78.98% 42.24%);
 }
-.main-container {
-  height: 100vh; /* Sätt höjden till 100% av skärmens höjd */
-}
+
 /* Styling for input containers */
 .input-container {
   display: inline-block;
